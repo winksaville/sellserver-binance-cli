@@ -1,0 +1,168 @@
+# This file contains configuration information for
+# binance_cli. Of particular importance is that it
+# may contina your binance keys. As such you should
+# NEVER EVER add real keys to this file as in instance
+# default location it is saved to the source control
+# system and is public.
+#
+# The easiest thing to do is to copy this file to configs/
+# as by default configs/config.toml is the default location
+# for this fil3e. If you'd rather you can move it to some
+# other directory and then create a BINANCE_CONFIG
+# environment variable with the full path to that file.
+#
+# For instance:
+#    $ cp config.toml /home/wink/wink-binance-config.toml
+#    $ export BINANCE_CONFIG=/home/wink/wink-binance-config.toml
+#
+# Note: the reason configs/ is ok is that by default configs/
+# si not saved to the source control system, see .gitignore
+
+# Add "real" keys here, but NEVER save this file to source control.
+API_KEY = "fake-api-key"
+SECRET_KEY = "fake-secret-key"
+
+# Path and file name for the log file
+order_log_path = "data/order-log.txt"
+
+# The name of the asset that is used to buy or sell another asset.
+default_quote_asset = "USD"
+
+# Test mode "true" | "false"
+# Default is currently true so auto-buy and auto-sell do nothing
+# if you trust this program and binance to do the right thing.
+# BE VERY CAREFUL!
+test = true
+
+# confirmation_required "true" | "false"
+# Default is true so auto-buy and auto-sell require confirmation and
+# the program will prompt the user. The program will only continue if
+# "Yes" is typed without the quotes. My suggestion is to leave this
+# `confirmation_required = true` and when in a daemon mode or run via
+# a script then pass the --no-confirmation_required on the command line.
+# AGAIN BE VERY CAREFUL!
+confirmation_required = true
+
+# Default scheme for make_url
+scheme = "https"
+
+# Default domain for make_url, binance.us or binance.com
+domain = "binance.us"
+
+# The "auto-sell" subcommand uses the "keep" entries asset
+# as a list of assets to keep, if an asset isn't listed
+# it will be SOLD, BE VERY CAREFUL!
+#
+# Each "keep" entry is the name of a coin to
+# keep at least some. Each entry can have
+# 1 to 3 fields; name, min, quote_asset:
+#   name: must be present.
+#   min: is the minimum number of coins to keep.
+#   quote_asset: can override the default_quote_asset
+#
+# A complete example is "BNB" below where at least 510
+# BNB is kept and the rest is sold for USDT (BNBUSDT).
+#
+# ONE at least 100 coins are kept using the default_quote_asset
+# and finaly "all" of ADA is sold. Note: because of minimums
+# there is likely some "dust" (a small fractional amount) unsold.
+#keep = [
+#    #{ name = "BNB", min = 510, quote_asset = "USDT" },
+#    #{ name = "ONE", min = 100 },
+#    #{ name = "ADA" },
+#
+#    # So we don't accidentally use this file
+#    this will generate an error, delete or comment out
+#]
+
+keep = [
+    { name = "USD" },
+    { name = "BNB", min=502, sell_to_asset="USD"},
+    { name = "ETH" },
+    { name = "BCHA" }, #suspended
+    { name = "BCHAUSD" }, #suspended
+    { name = "XRP" }, #suspended
+    { name = "XRPUSD" }, #suspended
+
+    #{ name = "AAVE" },
+    #{ name = "ADA" },
+    #{ name = "ALGO" },
+    #{ name = "AMP" },
+    #{ name = "ANKR" },
+    #{ name = "ATOM" },
+    #{ name = "AXS" },
+    #{ name = "BAND" },
+    #{ name = "BAT" },
+    #{ name = "BCH" },
+    #{ name = "BTC" },
+    #{ name = "BUSD" },
+    #{ name = "COMP" },
+    #{ name = "CRV" },
+    #{ name = "DAI" },
+    #{ name = "DASH" },
+    #{ name = "DOGE" },
+    #{ name = "EGLD" },
+    #{ name = "ENJ" },
+    #{ name = "EOS" },
+    #{ name = "ETC" },
+    #{ name = "ETH" },
+    #{ name = "FIL" },
+    #{ name = "GRT" },
+    #{ name = "HBAR" },
+    #{ name = "HNT" },
+    #{ name = "ICX" },
+    #{ name = "IOTA" },
+    #{ name = "KNC" },
+    #{ name = "LINK" },
+    #{ name = "LTC" },
+    #{ name = "MANA" },
+    #{ name = "MATIC" },
+    #{ name = "MKR" },
+    #{ name = "NANO" },
+    #{ name = "NEO" },
+    #{ name = "OMG" },
+    #{ name = "ONE" },
+    #{ name = "ONT" },
+    #{ name = "OXT" },
+    #{ name = "PAXG" },
+    #{ name = "QTUM" },
+    #{ name = "REP" },
+    #{ name = "RVN" },
+    #{ name = "SOL" },
+    #{ name = "STORJ" },
+    #{ name = "SUSHI" },
+    #{ name = "UNI" },
+    #{ name = "USDC" },
+    #{ name = "USDT" },
+    #{ name = "VET" },
+    #{ name = "VTHO" },
+    #{ name = "WAVES" },
+    #{ name = "XLM" },
+    #{ name = "XRP" },
+    #{ name = "XTZ" },
+    #{ name = "ZEC" },
+    #{ name = "ZEN" },
+    #{ name = "ZIL" },
+    #{ name = "ZRX" }
+] 
+
+# The "auto-buy" subcommand uses the "buy" as a list of assets
+# to buy. It buys approximately ((percent / 100) * quote_asset)
+# "free" (i.e. unlocked) quote_asset.
+#
+# It consits of 3 fields; name, percent and quote_asset:
+#   name: must be present.
+#   percent: percentage of the quote_asset that will be
+#            used to by the named asset above.
+#   quote_asset: is the asset to use to buy, it overrides
+#            the default_quote_asset
+#
+# So MATIC is bought using 10% of the currently free USD.
+# and what percentage of that quote
+#
+# Note: 
+buy = [
+    { name = "ETH",  percent = 100, quote_asset = "USD" },
+    #{ name = "ZEN", percent = 15 }
+]
+

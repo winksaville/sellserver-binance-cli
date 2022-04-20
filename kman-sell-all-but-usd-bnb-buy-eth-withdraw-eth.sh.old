@@ -1,0 +1,28 @@
+#!/usr/bin/bash
+
+# Optional parameter for test_mode, if not
+# supplied then default is -test and nothing happens.
+# Pass --no-test do not be in test mode
+test_mode=$1
+[ -z $test_mode ] && test_mode=--test
+
+#cd /home/wink/binance-cli
+echo "$script_name pwd=$PWD"
+
+app=/home/wink/bin/binance-cli
+config=configs/kman-config-sell-all-but-usd-bnb-buy-eth.toml
+confirmation=--no-confirmation-required
+script_name=$(basename $0)
+
+echo "$script_name name=start date=$(date -Iseconds)"
+
+$app -c $config auto-sell $confirmation $test_mode
+errcode=$?; [ $errcode -ne 0 ] && { echo "$script_name name=auto-sell error=$errcode date=$(date -Iseconds)"; exit $errcode; }
+
+$app -c $config auto-buy $confirmation $test_mode
+errcode=$?; [ $errcode -ne 0 ] && { echo "$script_name name=auto-buy error=$errcode date=$(date -Iseconds)"; exit $errcode; }
+
+$app -c $config withdraw ETH 100% --keep-min '$200' 0xd989942D49De163A54273af6De971Ba80308D5cD $test_mode
+errcode=$?; [ $errcode -ne 0 ] && { echo "$script_name name=withdraw error=$errcode date=$(date -Iseconds)"; exit $errcode; }
+
+echo "$script_name name=complete date=$(date -Iseconds)"
