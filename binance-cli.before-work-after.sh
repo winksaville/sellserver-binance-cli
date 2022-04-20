@@ -44,30 +44,29 @@ if [ ! -d $data_dir ]; then
 fi
 
 # Define the log file
-logfile=$data_dir/binance-cli.cronjob_date_$now.log
+work_logfile=$data_dir/binance-cli.cronjob_date_$now.log
 
 # Application with initial set of parameters
 app="binance-cli -c $config"
 
-# Output the account info before sell-buy-withdraw
+# Collect and Email the account info before sell-buy-withdraw
 ai_logfile=$data_dir/ai-before-$(date -Iseconds).txt
 $app ai --no-verbose > $ai_logfile 2>&1
 s-nail -a $ai_logfile -s "ai before: $ai_logfile" wink@saville.com <<< "ai before"
 
 # Execute work script capturing the output to the log
-./binance-cli.work.sell-all.but-usd-bnb-eth.to-usd.buy-eth-with-usd.withdraw-eth.sh $test_mode > $logfile  2>&1
+./binance-cli.work.sell-all.but-usd-bnb-eth.to-usd.buy-eth-with-usd.withdraw-eth.sh $test_mode > $work_logfile  2>&1
 
-# Output the account info after sell-buy-withdraw
+# Collect the account info after sell-buy-withdraw
 ai_logfile=$data_dir/ai-after-$(date -Iseconds).txt
 $app ai --no-verbose > $ai_logfile 2>&1
-s-nail -a $ai_logfile -s "ai after: $ai_logfile" wink@saville.com <<< "ai after"
 
-# Email the log file
-
-# Email the ai_logfile
+# Email the work log file
 if [ "$test_mode" == "--test" ]; then
   # Just email wink@saville.com if testing
-  s-nail -a $logfile -s "SellServer report: $logfile" wink@saville.com <<< "SellService report for $now"
+  s-nail -a $work_logfile -s "SellServer report: $work_logfile" wink@saville.com <<< "SellService report for $now"
 else
-  s-nail -a $logfile -s "SellServer report: $logfile" ksaville@gmail.com wink@saville.com <<< "SellService report for $now"
+  s-nail -a $work_logfile -s "SellServer report: $work_logfile" ksaville@gmail.com wink@saville.com <<< "SellService report for $now"
 fi
+
+s-nail -a $ai_logfile -s "ai after: $ai_logfile" wink@saville.com <<< "ai after"
