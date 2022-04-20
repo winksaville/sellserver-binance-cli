@@ -1,0 +1,6 @@
+# Ignore all files except example-config.toml and the symlink current-config.toml
+*
+*/
+!.gitignore
+!example-config.toml
+!current-config.toml

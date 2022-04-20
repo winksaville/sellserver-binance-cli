@@ -1,0 +1,4 @@
+# Ignore all files, but .gitignore which means the the directory will be created
+*
+*/
+!.gitignore

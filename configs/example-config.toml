@@ -19,8 +19,11 @@
 # si not saved to the source control system, see .gitignore
 
 # Add "real" keys here, but NEVER save this file to source control.
-API_KEY = "fake-api-key"
-SECRET_KEY = "fake-secret-key"
+API_KEY = "fakeapikey"
+SECRET_KEY = "fakesecretkey"
+
+# Default destination address for the withdraw command
+withdraw_addr = "0xabadabadabadabadabadabadabadabadabadabad"
 
 # Path and file name for the log file
 order_log_path = "data/order-log.txt"
