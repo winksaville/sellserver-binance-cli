@@ -20,7 +20,7 @@ to a article that might be helpful.
 Here is a cron table that runs binance-cli.cronjob.sh once a day at midnight UTC:
 ```
 $ crontab -l
-PATH=/RunCloud/Packages/httpd-rc/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+PATH=/home/wink/bin:/RunCloud/Packages/httpd-rc/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 0 0 * * * /home/wink/binance-cli/binance-cli.cronjob.sh --no-test
 ```
