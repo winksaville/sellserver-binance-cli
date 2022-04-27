@@ -15,9 +15,9 @@ git clone https://github.com/winksaville/sellserver-binance-cli binance-cli
 ```
 
 Then setup a cronjob to periodically run, [here is a link](https://www.digitalocean.com/community/tutorials/how-to-use-cron-to-automate-tasks-ubuntu-1804)
-to a article that might be helpful.
+to an article that might be helpful.
 
-Currently the crontab is setup to runs `binance-cli.cronjob.sh` **once a week**
+Currently the crontab is setup to run `binance-cli.cronjob.sh` **once a week**
 on [Monday at midnight UTC](https://crontab.guru/#0_0_*_*_1).
 ```
 $ crontab -l
@@ -26,7 +26,7 @@ PATH=/home/wink/bin:/RunCloud/Packages/httpd-rc/bin:/usr/local/sbin:/usr/local/b
 0 0 * * 1 /home/wink/binance-cli/binance-cli.cronjob.sh --no-test
 ```
 
-Prviously it was setup to `binance-cli.cronjob.sh` once a day at midnight UTC:
+Prviously it was setup to run `binance-cli.cronjob.sh` once a day at midnight UTC:
 ```
 $ crontab -l
 PATH=/home/wink/bin:/RunCloud/Packages/httpd-rc/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
